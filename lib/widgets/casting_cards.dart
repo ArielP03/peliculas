@@ -15,8 +15,6 @@ class CastingCards extends StatelessWidget {
     return FutureBuilder(
       future: moviesProvider.getMovieCast(movieId),
       builder: (_, AsyncSnapshot<List<Cast>> snapshot) {
-        final List<Cast> cast = snapshot.data;
-        print(snapshot);
         if (!snapshot.hasData) {
           return Container(
             constraints: BoxConstraints(maxWidth: 150),
@@ -24,7 +22,7 @@ class CastingCards extends StatelessWidget {
             child: CupertinoActivityIndicator(),
           );
         }
-
+        final List<Cast> cast = snapshot.data;
         return Container(
           margin: EdgeInsets.only(bottom: 30),
           width: double.infinity,
@@ -32,7 +30,9 @@ class CastingCards extends StatelessWidget {
           child: ListView.builder(
             itemCount: 10,
             scrollDirection: Axis.horizontal,
-            itemBuilder: (_, int index) => _CastCard(cast[index]),
+            itemBuilder: (_, int index) => _CastCard(
+              actor: cast[index],
+            ),
           ),
         );
       },
@@ -42,8 +42,7 @@ class CastingCards extends StatelessWidget {
 
 class _CastCard extends StatelessWidget {
   final Cast actor;
-
-  const _CastCard(Cast cast, {this.actor});
+  const _CastCard({this.actor});
   @override
   Widget build(BuildContext context) {
     return Container(
