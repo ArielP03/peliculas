@@ -13,7 +13,7 @@ class CardSwiper extends StatelessWidget {
     if (this.movies.length == 0) {
       return Container(
         width: double.infinity,
-        height: size.height*0.5,
+        height: size.height * 0.5,
         child: Center(
           child: CircularProgressIndicator(),
         ),
@@ -30,17 +30,19 @@ class CardSwiper extends StatelessWidget {
           itemHeight: size.height * 0.4,
           itemBuilder: (_, int index) {
             final movie = movies[index];
-            print(movie.posterPath);
-
+            movie.heroId = 'swiper-${movie.id}';
             return GestureDetector(
-              onTap: () => Navigator.pushNamed(context, 'details',
-                  arguments: movie),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/loading.gif'),
-                  image: NetworkImage(movie.fullPosterImg),
-                  fit: BoxFit.cover,
+              onTap: () =>
+                  Navigator.pushNamed(context, 'details', arguments: movie),
+              child: Hero(
+                tag: movie.heroId,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/loading.gif'),
+                    image: NetworkImage(movie.fullPosterImg),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             );
